@@ -1,6 +1,4 @@
--- ==============================================================================
 -- 1. MODELAGEM OLTP (NORMALIZAÇÃO E INTEGRIDADE) - PostgreSQL
--- ==============================================================================
 -- Garantindo chaves fortes e integridade referencial (3ª Forma Normal)
 
 CREATE TABLE tb_customers (
@@ -32,9 +30,7 @@ CREATE TABLE tb_order_items (
     unit_price DECIMAL(10,2) NOT NULL -- Guarda o preço no momento da compra
 );
 
--- ==============================================================================
 -- 2. DML - CARGA MÍNIMA DE DADOS
--- ==============================================================================
 INSERT INTO tb_customers (name, email) VALUES 
 ('Ana Silva', 'ana@email.com'), ('Bruno Costa', 'bruno@email.com'), ('Carlos Dias', 'carlos@email.com');
 
@@ -48,9 +44,7 @@ INSERT INTO tb_order_items (order_id, product_id, quantity, unit_price) VALUES
 (1, 1, 1, 2500.00), (1, 2, 1, 300.00), (2, 3, 2, 80.00), (3, 1, 1, 2400.00);
 
 
--- ==============================================================================
 -- 3. OTIMIZAÇÃO: ÍNDICES E PLANO DE EXECUÇÃO (EXPLAIN ANALYZE)
--- ==============================================================================
 -- Problema: Consultas filtrando pedidos por data ou cliente estavam lentas.
 -- Solução: Criação de índices B-Tree nas chaves estrangeiras e datas.
 
@@ -62,9 +56,7 @@ CREATE INDEX idx_orders_order_date ON tb_orders(order_date);
 -- SELECT * FROM tb_orders WHERE order_date >= '2025-11-01';
 
 
--- ==============================================================================
 -- 4. CONSULTAS ANALÍTICAS (VIEWS, CTES e WINDOW FUNCTIONS)
--- ==============================================================================
 
 -- VIEW Analítica para facilitar a vida do time de Dados (agrega o valor do pedido)
 CREATE OR REPLACE VIEW vw_order_summary AS
@@ -85,9 +77,7 @@ WITH CustomerPurchases AS (
         order_id,
         order_date,
         total_order_value,
-        -- Window function: Numera as compras do cliente por ordem cronológica
         ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_date) as purchase_number,
-        -- Window function: Calcula o total gasto acumulado do cliente até aquele pedido
         SUM(total_order_value) OVER (PARTITION BY customer_id ORDER BY order_date) as cumulative_spent
     FROM vw_order_summary
 )

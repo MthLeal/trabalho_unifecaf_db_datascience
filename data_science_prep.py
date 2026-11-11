@@ -7,8 +7,7 @@ import sqlite3
 from datetime import datetime
 
 # 1. SIMULAÇÃO DE EXTRAÇÃO (Lendo de um banco relacional / read_sql)
-# Na VarejoMix, usaríamos SQLAlchemy: engine = create_engine('postgresql://user:pass@host/db')
-# Aqui usamos sqlite em memória para o código ser executável independentemente.
+# Na VarejoMix, deveria usar SQLAlchemy: engine = create_engine('postgresql://user:pass@host/db')
 conn = sqlite3.connect(':memory:')
 
 # Criando dataframe simulando a query da View vw_order_summary do script SQL
@@ -28,7 +27,7 @@ df = pd.read_sql(query, conn, parse_dates=['order_date'])
 print("--- Extracao Concluida ---")
 print(f"Shape do Dataset Bruto: {df.shape}\n")
 
-# 2. FEATURE ENGINEERING (Criação de Dataset Analítico)
+# FEATURE ENGINEERING (Criação de Dataset Analítico)
 # Criando features RFM (Recency, Frequency, Monetary) vitais para modelos de churn/recompra
 analysis_date = pd.to_datetime('2025-12-31')
 
@@ -39,7 +38,6 @@ df_features = df.groupby('customer_id').agg(
     monetary_value=('total_order_value', 'mean')
 ).reset_index()
 
-# 3. BREVE DOCUMENTAÇÃO DO DATASET (Dicionário de Dados)
 print("--- Documentacao do Dataset (RFM) ---")
 print(f"Total de Clientes Distintos: {df_features.shape[0]}")
 print(f"Valores Nulos: \n{df_features.isnull().sum()}\n")
