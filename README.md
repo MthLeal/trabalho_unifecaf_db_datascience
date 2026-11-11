@@ -1,11 +1,10 @@
 # Projeto de Arquitetura de Dados - VarejoMix
 
-Este repositório contém a entrega final para o desafio de Engenharia e Análise de Dados da VarejoMix, endereçando a reestruturação da arquitetura de dados (OLTP, NoSQL, e Lakehouse).
+Este repositório contém a entrega final para o desafio de Engenharia e Análise de Dados da VarejoMix, endereçando a reestruturação da arquitetura de dados (OLTP, NoSQL, e Lakehouse). [Link](https://youtu.be/p0DkVCQN_Ks) para assistir o vídeo pit.
 
 ## Estrutura do Repositório (Pacote Técnico)
 - `relatorio_arquitetura.pdf`: Relatório teórico (6-10 págs) gerado a partir do HTML, contendo diagramas, trade-offs e o estudo de caso da Uber.
 - `database_setup.sql`: DDL, DML, criação de views, queries analíticas (CTEs/Window Functions) e otimização por índices.
-- `nosql_events_model.md`: Estrutura JSON justificando a escolha pelo padrão híbrido (Reference + Point-in-Time Embed).
 - `data_science_prep.py`: Script Python integrando via `read_sql` e gerando features RFM para Data Science.
 
 ## Pré-requisitos
